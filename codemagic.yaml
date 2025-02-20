@@ -4,16 +4,16 @@ workflows:
     max_build_duration: 60
     environment:
       vars:
-        XCODE_WORKSPACE: "FakeWalletUSDT.xcworkspace"
         XCODE_SCHEME: "FakeWalletUSDT"
     scripts:
-      - name: Install dependencies
+      - name: Resolve dependencies
         script: |
-          pod install
+          swift package resolve
       - name: Build project
         script: |
-          xcodebuild -workspace $XCODE_WORKSPACE -scheme $XCODE_SCHEME clean build
+          swift build -c release
     artifacts:
-      - build/ios/ipa/*.ipa
+      - .build/release/**
+
 
 

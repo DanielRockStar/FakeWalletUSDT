@@ -13,12 +13,9 @@ workflows:
           swift package resolve
       - name: Build project
         script: |
-          swift build -c release
-      - name: Archive project
-        script: |
-          xcodebuild -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive -scheme FakeWalletUSDT -sdk iphoneos -configuration release -destination 'generic/platform=iOS'
+          xcodebuild -scheme FakeWalletUSDT -sdk iphoneos -configuration release -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive archive
       - name: Create IPA
         script: |
-          xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive -exportPath $CM_BUILD_DIR/FakeWalletUSDT.ipa -exportOptionsPlist exportOptions.plist
+          xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive -exportPath $CM_BUILD_DIR/FakeWalletUSDT.ipa -exportOptionsPlist $CM_BUILD_DIR/exportOptions.plist
     artifacts:
-      - $CM_BUILD_DIR/FakeWalletUSDT.ipa 
+      - $CM_BUILD_DIR/FakeWalletUSDT.ipa

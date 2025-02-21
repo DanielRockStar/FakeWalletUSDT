@@ -6,6 +6,9 @@ workflows:
       vars:
         XCODE_SCHEME: "FakeWalletUSDT"
     scripts:
+      - name: Generate Xcode project
+        script: |
+          swift package generate-xcodeproj
       - name: Resolve dependencies
         script: |
           swift package resolve
@@ -14,6 +17,3 @@ workflows:
           swift build -c release
     artifacts:
       - .build/release/**
-
-
-

@@ -19,7 +19,7 @@ workflows:
           <plist version="1.0">
             <dict>
               <key>method</key>
-              <string>ad-hoc</string>
+              <string>development</string>
               <key>compileBitcode</key>
               <false/>
               <key>signingStyle</key>
@@ -36,7 +36,7 @@ workflows:
           EOF
       - name: Проверка наличия exportOptions.plist
         script: |
-          ls -la $CM_BUILD_DIR
+          cat $CM_BUILD_DIR/exportOptions.plist
       - name: Resolve dependencies
         script: |
           swift package resolve
@@ -46,6 +46,9 @@ workflows:
       - name: Проверка наличия архива
         script: |
           ls -la $CM_BUILD_DIR/FakeWalletUSDT.xcarchive
+      - name: Проверка параметров xcodebuild -exportArchive
+        script: |
+          xcodebuild -exportArchive -help
       - name: Create IPA
         script: |
           xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive -exportPath $CM_BUILD_DIR/output -exportOptionsPlist $CM_BUILD_DIR/exportOptions.plist -allowProvisioningUpdates

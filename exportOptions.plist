@@ -17,7 +17,5 @@
     <false/>
     <key>destination</key>
     <string>export</string>
-    <key>stripSwiftSymbols</key>
-    <true/>
 </dict>
 </plist>

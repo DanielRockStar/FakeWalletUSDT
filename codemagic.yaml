@@ -8,6 +8,24 @@ workflows:
       vars:
         XCODE_SCHEME: "FakeWalletUSDT"
     scripts:
+      - name: Создание exportOptions.plist
+        script: |
+          cat > $CM_BUILD_DIR/exportOptions.plist <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+            <dict>
+              <key>method</key>
+              <string>ad-hoc</string>
+              <key>compileBitcode</key>
+              <false/>
+              <key>signingStyle</key>
+              <string>manual</string>
+              <key>signingCertificate</key>
+              <string>Apple Development</string>
+            </dict>
+          </plist>
+          EOF
       - name: Проверка наличия exportOptions.plist
         script: |
           ls -la $CM_BUILD_DIR
@@ -16,9 +34,9 @@ workflows:
           swift package resolve
       - name: Build project
         script: |
-          xcodebuild -scheme FakeWalletUSDT -sdk iphoneos -configuration release -destination 'generic/platform=iOS' -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive archive
+          xcodebuild -scheme FakeWalletUSDT -sdk iphoneos -configuration release -destination 'generic/platform=iOS' -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive archive -allowProvisioningUpdates
       - name: Create IPA
         script: |
-          xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive -exportPath $CM_BUILD_DIR/FakeWalletUSDT.ipa -exportOptionsPlist $CM_BUILD_DIR/exportOptions.plist
+          xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive -exportPath $CM_BUILD_DIR/FakeWalletUSDT.ipa -exportOptionsPlist $CM_BUILD_DIR/exportOptions.plist -allowProvisioningUpdates
     artifacts:
       - $CM_BUILD_DIR/FakeWalletUSDT.ipa

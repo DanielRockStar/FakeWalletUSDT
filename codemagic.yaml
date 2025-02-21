@@ -22,4 +22,3 @@ workflows:
           xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive -exportPath $CM_BUILD_DIR/FakeWalletUSDT.ipa -exportOptionsPlist exportOptions.plist
     artifacts:
       - $CM_BUILD_DIR/FakeWalletUSDT.ipa 
-

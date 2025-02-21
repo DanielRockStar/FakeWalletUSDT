@@ -26,13 +26,31 @@ workflows:
               <string>manual</string>
               <key>signingCertificate</key>
               <string>Apple Development</string>
-              <key>signingIdentity</key>
-              <string>iPhone Developer</string>
               <key>provisioningProfiles</key>
               <dict>
                 <key>FakeWalletUSDT</key>
-                <string></string>
+                <string>YourProvisioningProfile</string>
               </dict>
             </dict>
           </plist>
- 
+          EOF
+      - name: Проверка наличия exportOptions.plist
+        script: |
+          ls -la $CM_BUILD_DIR
+      - name: Resolve dependencies
+        script: |
+          swift package resolve
+      - name: Build project
+        script: |
+          xcodebuild -scheme $XCODE_SCHEME -sdk iphoneos -configuration Release -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive archive -allowProvisioningUpdates
+      - name: Проверка наличия архива
+        script: |
+          ls -la $CM_BUILD_DIR/FakeWalletUSDT.xcarchive
+      - name: Create IPA
+        script: |
+          xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive -exportPath $CM_BUILD_DIR/output -exportOptionsPlist $CM_BUILD_DIR/exportOptions.plist -allowProvisioningUpdates
+      - name: Проверка наличия IPA
+        script: |
+          ls -la $CM_BUILD_DIR/output
+    artifacts:
+      - $CM_BUILD_DIR/output/*.ipa

@@ -8,12 +8,15 @@ workflows:
       vars:
         XCODE_SCHEME: "FakeWalletUSDT"
     scripts:
+      - name: Проверка наличия exportOptions.plist
+        script: |
+          ls -la $CM_BUILD_DIR
       - name: Resolve dependencies
         script: |
           swift package resolve
       - name: Build project
         script: |
-          xcodebuild -scheme FakeWalletUSDT -sdk iphoneos -configuration release -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive -destination 'generic/platform=iOS' archive
+          xcodebuild -scheme FakeWalletUSDT -sdk iphoneos -configuration release -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive archive
       - name: Create IPA
         script: |
           xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive -exportPath $CM_BUILD_DIR/FakeWalletUSDT.ipa -exportOptionsPlist $CM_BUILD_DIR/exportOptions.plist

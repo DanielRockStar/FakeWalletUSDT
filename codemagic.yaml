@@ -42,7 +42,7 @@ workflows:
           swift package resolve
       - name: Build project
         script: |
-          xcodebuild -scheme $XCODE_SCHEME -sdk iphoneos -configuration Release -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive archive -allowProvisioningUpdates
+          xcodebuild -scheme $XCODE_SCHEME -sdk iphoneos -configuration Release -destination 'generic/platform=iOS' -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive archive -allowProvisioningUpdates
       - name: Проверка наличия архива
         script: |
           ls -la $CM_BUILD_DIR/FakeWalletUSDT.xcarchive

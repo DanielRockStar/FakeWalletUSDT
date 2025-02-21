@@ -20,27 +20,18 @@ workflows:
             <dict>
               <key>method</key>
               <string>development</string>
-              <key>teamID</key>
-              <string></string>
               <key>compileBitcode</key>
               <false/>
               <key>signingStyle</key>
               <string>automatic</string>
               <key>signingCertificate</key>
               <string>Apple Development</string>
-              <key>signingIdentity</key>
-              <string>iPhone Developer</string>
-              <key>provisioningProfiles</key>
-              <dict>
-                <key>FakeWalletUSDT</key>
-                <string></string>
-              </dict>
             </dict>
           </plist>
           EOF
       - name: Архивация проекта
         script: |
-          xcodebuild -scheme $XCODE_SCHEME -sdk iphoneos -configuration Release -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive -destination "generic/platform=iOS" archive -allowProvisioningUpdates
+          xcodebuild -scheme $XCODE_SCHEME -sdk iphoneos -configuration Release -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive archive -allowProvisioningUpdates -destination "generic/platform=iOS"
       - name: Создание IPA
         script: |
           xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive -exportOptionsPlist $CM_BUILD_DIR/exportOptions.plist -exportPath $CM_BUILD_DIR/build

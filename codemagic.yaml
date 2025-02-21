@@ -19,13 +19,11 @@ workflows:
           <plist version="1.0">
             <dict>
               <key>method</key>
-              <string>development</string>
+              <string>ad-hoc</string>
               <key>compileBitcode</key>
               <false/>
               <key>signingStyle</key>
               <string>manual</string>
-              <key>signingCertificate</key>
-              <string>Apple Development</string>
               <key>provisioningProfiles</key>
               <dict>
                 <key>FakeWalletUSDT</key>

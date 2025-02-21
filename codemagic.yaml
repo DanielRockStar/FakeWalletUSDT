@@ -14,12 +14,12 @@ workflows:
       - name: Build project
         script: |
           swift build -c release
-      - name: Create IPA
+      - name: Archive project
         script: |
           xcodebuild -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive -scheme FakeWalletUSDT -sdk iphoneos -configuration release -destination 'generic/platform=iOS'
+      - name: Create IPA
+        script: |
           xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/FakeWalletUSDT.xcarchive -exportPath $CM_BUILD_DIR/FakeWalletUSDT.ipa -exportOptionsPlist exportOptions.plist
     artifacts:
       - $CM_BUILD_DIR/FakeWalletUSDT.ipa 
-
-
 
